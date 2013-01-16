@@ -1,0 +1,78 @@
+@import "base";
+
+body{
+    @include container;
+    width:auto;
+    min-width:200px;
+    max-width:960px;
+    background:$black;
+    color:$white;
+}
+
+.wrapper{
+    margin:0 20px;
+}
+
+h1{
+    a{
+        color:#f8f8f8;
+    }
+    span{
+        background:#000;
+        @include border-radius(4px);
+        display:inline-block;
+        min-height:36px;
+        padding: 16px;
+        text-shadow:0 0 18px #f8f8f8;
+    }
+    text-shadow:0 0 1px #000;
+    line-height: 36px;
+}
+
+.download-button{
+    @include border-radius(4px);
+    @include single-box-shadow();
+    @include background-image(linear-gradient($light-grey, $dark-grey));
+    display:block;
+    text-align:center;
+    padding:16px;
+    color:$black;
+    text-shadow:0 0 2px $white;
+    text-decoration:none;
+    position:relative;
+    strong{
+        font-weight:normal;
+    }
+    .hover-state{
+        @include transition(0.2s);
+        -webkit-transform: translate3d(0, 0, 0);
+        @include border-radius(4px);
+        height:0;
+        overflow:hidden;
+        display:block;
+        color:blue;
+        background:#ddd;
+        position:absolute;
+        bottom:0;
+        left:0;
+        width:100%;
+        text-align:center;
+        line-height:80px;
+
+    }
+    span{
+        font-size:12px;
+        display:block;
+    }
+    &:hover{
+        @include background-image(linear-gradient($light-grey, $light-grey));
+        color:$dark-grey;
+        .hover-state{
+            display:block;
+            height:80px;
+            @include opacity(.6);
+            @include transition(0.2s);
+            -webkit-transform: translate3d(0, 0, 0);
+        }
+    }
+}

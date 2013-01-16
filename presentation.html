@@ -1,0 +1,532 @@
+<!doctype html>  
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		
+		<title>SCSS ok?</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<script>
+			// If the query includes 'print-pdf' we'll use the PDF print sheet
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+	
+	<body>
+		
+		<div class="reveal">
+
+			<!-- Used to fade in a background when a specific slide state is reached -->
+			<div class="state-background"></div>
+			
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>SCSS + LESS Preprocessors</h1>
+					<h3>Organised CSS.</h3>
+				</section>
+
+                <section>
+                    <h2>What is a CSS preprocessor?</h2>
+                    <blockquote>"CSS preprocessors take code written in the preprocessed language and then convert that code into the same old css we’ve been writing for years"</blockquote>
+                </section>
+                <section>
+
+                    <h2>Why use a preprocessor?</h2>
+
+                    <ul>
+                        <li class="fragment">To fix some of CSS' misgivings and limitations.</li>
+                        <li class="fragment">To make speedy, clean updates to your site.</li>
+                        <li class="fragment">Because of the supporting libraries.</li>
+                        <li class="fragment">They bring traditional operators to CSS. eg. loops, functions.</li>
+                        <li class="fragment">The more they're used, the better they'll get.</li>
+                    </ul>
+                    
+                </section>
+
+                <section>
+                    <h2>LESS and SCSS</h2>
+                    <ul>
+                        <li>Nesting</li>
+                        <li>Variables</li>
+                        <li>Mixins</li>
+                        <li>Inheritence</li>
+                        <li>Importing</li>
+                        <li>Color functions</li>
+                        <li>Maths!</li>
+                    </ul>
+                </section>
+
+
+                <section>
+                    <section>
+                    <h2>Nesting!</h2>
+                        <p>Styling a block can be frustrating.</p>
+                         <pre><code contenteditable style="margin-top: 20px;">
+                 section {
+                    margin: 10px;
+                 }
+                 section nav {
+                    height: 25px;
+                 }
+                 section nav a {
+                    color: #0982C1;
+                 }
+                 section nav a:hover {
+                    text-decoration: underline;
+                 }
+                         </code></pre>
+                    </section>
+                    <section>
+                        <h2>In a preprocessor..</h2>
+                        <pre><code contenteditable style="margin-top: 20px;">
+                section {
+                    margin: 10px;
+                    nav {
+                        height: 25px;
+                        a {
+                            color: #0982C1;
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+                    </code></pre>
+
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Variables</h2>
+                        <pre><code contenteditable style="margin-top: 20px;">
+                    /*scss*/
+                    $color: #efefef;
+                    body{ background: $color; }
+
+                    /*less*/
+                    @color: #efefef;
+                    body{ background: @color; }
+
+                    /*css*/
+                    body{
+                        background:#efefef;
+                    }
+                        </code></pre>
+
+                    </section>
+
+                    <section>
+                        <h2>Working with designers</h2>
+                        <pre><code contenteditable style="margin-top: 20px;">
+                    /* brand colors */
+                    $red: #00ff00;
+                    $green: #ff00ff;
+                    $black: #656565;
+                    $white: #ffffff;
+                    $grey: #f8f8f8;
+
+                    /*css*/
+                    body{
+                        background:$black;
+                    }
+
+                    ul{
+                        li{
+                            float:left;
+                            a{
+                                border:1px solid $green;
+                                background: $grey;
+                                color:$black;
+                            }
+                        }
+                    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Interpolation</h2>
+                        <pre><code contenteditable style="margin-top: 20px;">
+    /* -- .scss --  */
+    $side: top;
+    border-#{$side): 1px solid #000;
+
+    /* -- resulting css -- */
+    border-top: 1px solid #000;
+
+    /* -- .less -- */
+    @base-url: "http://example.com";
+    background-image: url("@{base-url}}/images/bg.png");
+
+    /* -- resulting css -- */
+    background-image: url("http://example.com/images/bg.png");
+
+                        </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        ## Mixins (functions!)
+
+                        * Functions that allow the reuse of properties throughout the CSS.
+                        * Used to simplify repetitive CSS
+
+                    </section>
+
+
+                    <section>
+                        <h2>A Practical Example</h2>
+                        <pre><code contenteditable style="margin-top: 20px;">
+    /*scss*/
+    @mixin border-radius($values: 5px) {
+        -webkit-border-radius: $values;
+        -moz-border-radius: $values;
+        border-radius: $values;
+    }
+
+    /*less*/
+    .border-radius(@values:5px) {
+        -webkit-border-radius: @values;
+        -moz-border-radius: @values;
+        border-radius: @values;
+    }
+
+    /*scss*/ .obnoxious-button{ @include border-radius(10px); }
+    /*less*/ .obnoxious-button{ .border-radius(10px); }
+    /*css*/
+    .obnoxious-button{
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+    }
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Rainbow colours!</h2>
+
+                        <div class="image"><img src="images/menu-colours.png" alt=""></div>
+                    </section>
+
+                    <section>
+                        <h2>Pain meds not required.</h2>
+                        <pre><code contenteditable style="margin-top: 20px;">
+    li.projects  {@include colorNav($grey)}
+    li.investments  {@include colorNav($blue)}
+    li.sustainability  {@include colorNav($green)}
+    li.usa  {@include colorNav($brown)}
+    li.resources  {@include colorNav($light-grey)}
+    li.about-us  {@include colorNav($red);
+
+    @mixin colorNav($area-color:#000) {
+        &.jquery-drop-current, &.current, &.has_current{
+            a{
+                background:$area-color
+            }
+        }
+        a:hover{
+            background:$area-color;
+        }
+        ul{
+            background:$area-color;
+            a{
+                &:hover{
+                    background:lighten($area-color, 10%);
+                }
+            }
+        }
+    }
+                        </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Inheritence</h2>
+
+                        <pre><code contenteditable style="margin-top: 20px;">
+        .block {
+            margin: 10px 5px;
+            padding: 2px;
+        }
+        p {
+            @extend .block; /* Inherit styles from '.block' */
+            border: 1px solid #EEE;
+        }
+        ul, ol {
+            @extend .block; /* Inherit styles from '.block' */
+            color: #333;
+            text-transform: uppercase;
+        }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre><code contenteditable style="margin-top: 20px;">
+        .block, p, ul, ol {
+            margin: 10px 5px;
+            padding: 2px;
+        }
+        p {
+            border: 1px solid #EEE;
+        }
+        ul, ol {
+            color: #333;
+            text-transform: uppercase;
+        }
+                        </code></pre>
+                    </section>
+                </section>
+
+
+                <section>
+                    <section>
+                        <h2>Importing</h2>
+
+                        <ul>
+                            <li>Create less HTTP requests</li>
+                            <li>Serve print and normal CSS in one file</li>
+                            <li>Development can be organised how you like</li>
+                        </ul>
+
+                        <div class="image"><img src="images/theme-structure.png" alt=""></div>
+
+
+                    </section>
+
+                    <section>
+                        <p>Access to other files makes individuals managable.</p>
+                         <pre><code contenteditable style="margin-top: 20px;">
+                 /*master.scss*/
+                 @import "base";
+
+                 body{
+                     text-align:center;
+                     color:$black;
+                 }
+                         </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Colour manipulation</h2>
+
+                        <ul>
+                            <li>Apply photoshop-like filters on standard color codes.</li>
+                            <li>Rapidly mock up examples of things like hover states</li>
+                            <li>Discover color palettes that match your chosen colours</li>
+                        </ul>
+
+                    </section>
+
+                    <section>
+                        <h2>SCSS</h2>
+                         <pre><code contenteditable style="margin-top: 20px;">
+    /* returns a color 10% lighter than $color */
+    lighten($color, 10%);
+    /* returns a color 10% darker than $color */
+    darken($color, 10%);
+    /* returns a color 10% more saturated than $color */
+    saturate($color, 10%);
+    /* returns a color 10% less saturated than $color */
+    desaturate($color, 10%);
+    /* returns grayscale of $color */
+    grayscale($color);
+    /* returns complement color of $color */
+    complement($color);
+    /* returns inverted color of $color */
+    invert($color);
+    /* mix $color1 with $color2 with a weight of 50% */
+    mix($color1, $color2, 50%);
+                         </code></pre>
+                        <a href="http://sass-lang.com/docs/yardoc/Sass/Script/Functions.html">so many functions!</a>
+                    </section>
+                    <section>
+                        <h2>LESS</h2>
+                         <pre><code contenteditable style="margin-top: 20px;">
+     // return a color which is 10% *lighter* than @color
+     lighten(@color, 10%);
+     // return a color which is 10% *darker* than @color
+     darken(@color, 10%);
+     // return a color 10% *more* saturated than @color
+     saturate(@color, 10%);
+     // return a color 10% *less* saturated than @color
+     desaturate(@color, 10%);
+     // return a color 10% *less* transparent than @color
+     fadein(@color, 10%);
+     // return a color 10% *more* transparent than @color
+     fadeout(@color, 10%);
+     // return @color with 50% transparency
+     fade(@color, 50%);
+     // return a color with a 10 degree larger in hue than @color
+     spin(@color, 10);
+     // return a color with a 10 degree smaller hue than @color
+     spin(@color, -10);
+     // return a mix of @color1 and @color2
+     mix(@color1, @color2);
+                         </code></pre>
+                        <a href="http://lesscss.org/#-color-functions">so many functions!</a>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Maths!</h2>
+                        <p>Both scss and less are immensely powerful with this.</p>
+                        <pre><code contenteditable style="margin-top: 20px;">
+                        body {
+                            margin: (14px/2);
+                            top: 50px + 100px;
+                            right: 100px - 50px;
+                            left: 10 * 10;
+                        }
+
+                        round(1.67); // returns `2`
+                        ceil(2.4);   // returns `3`
+                        floor(2.6);  // returns `2`
+                        </code></pre>
+
+
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Compiling</h2>
+
+                        <ul>
+                            <li>SCSS and LESS can be setup to create css every time you save.</li>
+                            <li>Instant feedback is given.</li>
+                            <li>Even more efficient with <a href="http://livejs.com/">live.js</a></li>
+                        </ul>
+
+                    </section>
+
+                    <section>
+                        <h2>Compass</h2>
+                        <div class="image"><img src="images/compass-logo.png" alt=""></div>
+                        <p>A big set of mixins.</p>
+                        <a href="http://compass-style.org/examples/compass/css3/gradient/">http://compass-style.org/examples/compass/css3/gradient/</a>
+                    </section>
+
+                    <section>
+<pre><code contenteditable style="margin-top: 20px;">
+#radial-gradient {
+    @include background-image(radial-gradient(45px 45px, aqua 10px, #1e90ff 30px)); }
+}
+#radial-gradient {
+    background-image: -webkit-gradient(radial, 45px 45px, 0, 45px 45px, 30, color-stop(33.333%, #00ffff), color-stop(100%, #1e90ff));
+    background-image: -webkit-radial-gradient(45px 45px, #00ffff 10px, #1e90ff 30px);
+    background-image: -moz-radial-gradient(45px 45px, #00ffff 10px, #1e90ff 30px);
+    background-image: -o-radial-gradient(45px 45px, #00ffff 10px, #1e90ff 30px);
+    background-image: radial-gradient(45px 45px, #00ffff 10px, #1e90ff 30px);
+}
+</code></pre>
+
+                    </section>
+
+
+                    <section>
+                        <div class="image"><img src="images/scout-logo.png" alt=""></div>
+                        <div class="image"><img src="images/scout-info.png" alt=""></div>
+                    </section>
+                    <section>
+                        <h2>Less compiles in the browser!</h2>
+                        <div class="image"><img src="images/less-in-browser.png" alt=""></div>
+                    </section>
+                </section>
+
+                <section data-markdown>
+                    ## Workflow
+
+                    In an ideal world the workflow would be:
+
+                    * Work locally
+                    * Use version control (SVN, GIT)
+                    * Deploy to staging server
+                    * Deploy to live server
+                </section>
+
+                <section data-markdown>
+                    ## Disadvantages
+
+                    * Some setup/software needed for both SCSS and LESS
+                    * Support for older 'filters' in IE is difficult
+                    * Working live is difficult get set up
+
+                </section>
+
+                <section>
+                    <ul>
+                        <li><a href="http://lesscss.org/">http://lesscss.org/</a></li>
+                        <li><a href="http://compass-style.org">http://compass-style.org</a></li>
+                        <li><a href="http://mhs.github.com/scout-app/">http://mhs.github.com/scout-app/</a></li>
+                        <li><a href="http://incident57.com/codekit/">http://incident57.com/codekit/</a></li>
+                    </ul>
+
+                </section>
+
+			</div>
+
+			<!-- The navigational controls UI -->
+			<aside class="controls">
+				<a class="left" href="#">&#x25C4;</a>
+				<a class="right" href="#">&#x25BA;</a>
+				<a class="up" href="#">&#x25B2;</a>
+				<a class="down" href="#">&#x25BC;</a>
+			</aside>
+
+			<!-- Presentation progress bar -->
+			<div class="progress"><span></span></div>
+			
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				
+				theme: Reveal.getQueryHash().theme || 'beige', // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/linear(2d)
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+					{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
+				]
+			});
+			
+		</script>
+
+	</body>
+</html>
